@@ -173,7 +173,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2021-07-20 12:08:00 / 修改时间：15:23:17" itemprop="dateCreated datePublished" datetime="2021-07-20T12:08:00+08:00">2021-07-20</time>
+              <time title="创建时间：2021-07-20 12:08:00 / 修改时间：15:33:33" itemprop="dateCreated datePublished" datetime="2021-07-20T12:08:00+08:00">2021-07-20</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -198,42 +198,14 @@
       
           <h1 id="回溯"><a href="#回溯" class="headerlink" title="回溯"></a>回溯</h1><p>回溯是一个试错的算法，他尝试分步解决一个问题，当发现没有正确答案或者答案已经穷尽时，就会回头，恢复初始状态，再进行尝试！</p>
 <p>回溯可以用递归进行实现！</p>
-<h2 id="拿排列组合进行举例说明："><a href="#拿排列组合进行举例说明：" class="headerlink" title="拿排列组合进行举例说明："></a>拿排列组合进行举例说明：</h2><p>给你一个字符串，打印其所有排列组合的可能性（剑指offer38），不能重复！</p>
-<p>分析：</p>
-<p>在高中的时候排列组合的可能性通常使用空房子来说明。</p>
-<p>现有一个字符串“abc”，它的排列组合怎么求？</p>
-<p>先假设有三个空房子：</p>
-<img src="/2021/07/20/%E5%9B%9E%E6%BA%AF/image-20210720105017557.png" class title="This is an example image">
-
-<p>第一个空房子可以放abc中的任意一个，为了有次序的放置，我们先放a</p>
-<img src="/2021/07/20/%E5%9B%9E%E6%BA%AF/image-20210720105411609.png" class title="This is an example image">
-
-<p>由于不能重复，我们需要暂时把a禁掉，剩下的就只有bc了，以此类推，第二个可以先放b，那么最后一个就放置c</p>
-<img src="/2021/07/20/%E5%9B%9E%E6%BA%AF/image-20210720105535975.png" class title="This is an example image">
-
-<p>这是一种，当这个排序完成时，我们就需要回溯了，回到上一个状态，也就是只有a和两个空房子的状态，因为之前我们把bc都禁掉了，所以<strong>不要忘记解封</strong>！还需要把他们从房子里面踢出去，因为我们还是在a不动的基础上回溯，所以不会再新建三个空房子，所以需要腾出空间。</p>
-<img src="/2021/07/20/%E5%9B%9E%E6%BA%AF/image-20210720105411609.png" class title="This is an example image">
-
-<p>那么第二轮，由于刚才bc之间先放的b，这次我们先放c，那么第三个就是放b了</p>
-<img src="/2021/07/20/%E5%9B%9E%E6%BA%AF/image-20210720110043805.png" class title="This is an example image">
-
-<p>从上可以总结出，每次的跑的路线其实一样，首先看哪个没有被禁，把第一个没有被禁放进去，然后禁掉这个已经放置的，然后进去下一个循环，下一个还是判断谁没有被禁，然后放置第一个，等三个房子都被放进后，回溯到上一层，这时就要把之前的解禁，恢复到之前的转态！</p>
-<p>蒙蒙的话看图：</p>
-<img src="/2021/07/20/%E5%9B%9E%E6%BA%AF/image-20210720112629593.png" class title="This is an example image">
-
-<p>回溯的过程中，注意解封</p>
-<img src="/2021/07/20/%E5%9B%9E%E6%BA%AF/image-20210720113112303.png" class title="This is an example image">
-
-<p>第一次先放的b，这次放c</p>
-<img src="/2021/07/20/%E5%9B%9E%E6%BA%AF/image-20210720113312981.png" class title="This is an example image">
-
-<p>满了就回到三个空房子状态了，开始先放b</p>
-<img src="/2021/07/20/%E5%9B%9E%E6%BA%AF/image-20210720113432324.png" class title="This is an example image">
-
-<p>下面是代码：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    Set&lt;String&gt; list = <span class="keyword">new</span> HashSet&lt;&gt;();<span class="comment">//不重复</span></span><br><span class="line">    <span class="keyword">public</span> String[] permutation(String s) &#123;</span><br><span class="line">        HuiSu(s.toCharArray(),<span class="keyword">new</span> StringBuffer(),<span class="keyword">new</span> <span class="keyword">boolean</span>[s.length()]);</span><br><span class="line">        <span class="keyword">return</span> list.toArray(<span class="keyword">new</span> String[<span class="number">0</span>]);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">HuiSu</span><span class="params">(<span class="keyword">char</span>[] ch,StringBuffer sb, <span class="keyword">boolean</span>[] visited)</span></span>&#123;<span class="comment">//visited数组，就是1或者0的标识</span></span><br><span class="line">        <span class="keyword">if</span>(sb.length() == ch.length)&#123;<span class="comment">//判断空房子满了没有</span></span><br><span class="line">            list.add(sb.toString());<span class="comment">//满了的话就把完整的字符串加进去</span></span><br><span class="line">            <span class="keyword">return</span>;<span class="comment">//回溯</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>;i&lt;ch.length;i++)&#123;<span class="comment">//按顺序放</span></span><br><span class="line">            <span class="keyword">if</span>(visited[i])<span class="keyword">continue</span>;<span class="comment">//如果被禁了就跳出一层</span></span><br><span class="line">            sb.append(ch[i]);<span class="comment">//把没有被禁的第一个放进去</span></span><br><span class="line">            visited[i]=<span class="keyword">true</span>;<span class="comment">//禁掉刚放进去的一个</span></span><br><span class="line">            HuiSu(ch,sb,visited);<span class="comment">//放进去一个进入到Huisu函数再放下一个</span></span><br><span class="line">            sb.deleteCharAt(sb.length()-<span class="number">1</span>);<span class="comment">//结束后删掉刚放进的那个</span></span><br><span class="line">            visited[i]=<span class="keyword">false</span>;<span class="comment">//把刚放进去的那一个解禁</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/07/20/%E5%9B%9E%E6%BA%AF/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
