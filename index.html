@@ -148,6 +148,130 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://hackhang.github.io/2021/08/15/B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="JiangTao">
+      <meta itemprop="description" content="生命在于折腾">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Welcome to    电子俱乐部">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/08/15/B/" class="post-title-link" itemprop="url">B+</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-08-15 16:48:30 / 修改时间：16:52:13" itemprop="dateCreated datePublished" datetime="2021-08-15T16:48:30+08:00">2021-08-15</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/" itemprop="url" rel="index"><span itemprop="name">数据库</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2021/08/15/B/" class="post-meta-item leancloud_visitors" data-flag-title="B+" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2021/08/15/B/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2021/08/15/B/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="mysql索引为什么用B-树"><a href="#mysql索引为什么用B-树" class="headerlink" title="mysql索引为什么用B+树"></a>mysql索引为什么用B+树</h1><p>对于数据库的需求，我们需要高频率的范围查询，分组和排序。</p>
+<h2 id="数据库为什么要设计索引？"><a href="#数据库为什么要设计索引？" class="headerlink" title="数据库为什么要设计索引？"></a>数据库为什么要设计索引？</h2><p>我们有一个需求 ,我要写一个笔记可能字数很少我们只需要寥寥几页就可以查找到自己的需要的信息。后面我们的需求升级了，自己积累的笔记越来越多，内容越来越多，我们已经无法单纯的看查找具体内容，这时候我们有了目录，通过目录的关键字我们可以很快定位到具体内容的区域，缩小查找的范围。</p>
+<p>索引就像我们书本的目录一样，可以存储少量关键字就可以很快的查到具体内容。非常适合数据量很大的时候进行查找数据。</p>
+<h2 id="数据库索引为什么是树？"><a href="#数据库索引为什么是树？" class="headerlink" title="数据库索引为什么是树？"></a>数据库索引为什么是树？</h2><p>数据结构中，hash 和 tree相比，明显hash更占优势，hash平均时间复杂度为O(1) ；tree 比如平衡二叉查找树，平均时间复杂度为 O(lg(n))；</p>
+<p>但是我们需要数据库更多的是范围查询而不是单条操作。树的’‘有序’’，可以提高效率；</p>
+<p>InnoDB 不支持 hash 索引。</p>
+<p>那么多树结构，为什么用B+树？</p>
+<h3 id="二叉查找树"><a href="#二叉查找树" class="headerlink" title="二叉查找树"></a>二叉查找树</h3><img src="/2021/08/15/B/1.png" class title="This is an example image">
+
+<p>特点：左子树的键值小于根的键值，右子树的键值大于根的键值</p>
+<p>因为这种性质，二叉查找树的查询速度得到提升，但是极端情况性能会急剧下降，比如例子中如果高度一定，查找最大值或最小值，查询线路会变成线性的。</p>
+<h3 id="平衡二叉树（AVL）树"><a href="#平衡二叉树（AVL）树" class="headerlink" title="平衡二叉树（AVL）树"></a>平衡二叉树（AVL）树</h3><img src="/2021/08/15/B/2.png" class title="This is an example image">
+
+<p>特点：在符合二叉查找树的条件下，还满足任何节点的两个子树的高度最大差为1。</p>
+<p>这种情况改进了查询时高度差太大的问题，但是增加了修改和插入的时间，需要通过旋转来达到只要不满足上面平衡的条件，为查询提高性能。从查找而言平衡树还是优于弱平衡的红黑树的。</p>
+<h3 id="B树"><a href="#B树" class="headerlink" title="B树"></a>B树</h3><img src="/2021/08/15/B/3.png" class title="This is an example image">
+
+<p>特点：</p>
+<p>节点为m叉，不再是二叉，所以相同节点数量，B树的高度要小的多。</p>
+<p>树的高度降低可以尽可能减少磁盘的IO读次数，可以用cpu来分担IO压力，1个节点可以存储大量数据。可以符合磁盘局部性原理，下面会有局部性原理的介绍。</p>
+<p>B树中所有节点的孩子节点数中的最大值称为B树的阶，记为M（重点）</p>
+<p>树中的每个节点至多有M棵子树 —即：如果定了M，则这个B树中任何节点的子节点数量都不能超过M</p>
+<p>若根节点不是终端节点，则至少有两棵子树</p>
+<p>除根节点和叶节点外，所有点至少有m/2棵子树（上溢）</p>
+<p>所有的叶子结点都位于同一层。</p>
+<p>中序遍历得到所有数据。</p>
+<h4 id="磁盘局部性："><a href="#磁盘局部性：" class="headerlink" title="磁盘局部性："></a>磁盘局部性：</h4><p>软件设计要尽量遵循“数据读取集中”与“使用到一个数据，大概率会使用其附近的数据”，这样磁盘预读能充分提高磁盘IO；</p>
+<p>磁盘中由块组成，数据所在的块不同都需要重新寻址查找数据。操作系统与磁盘打交道的最小单位是磁盘块。目前是4k大小。</p>
+<p>1个节点的数据如果为块的大小，读取一个节点的数据全读取出来，未来查找的数据在读取的数据中，将会提升效率。</p>
+<h3 id="B-树"><a href="#B-树" class="headerlink" title="B+树"></a>B+树</h3><img src="/2021/08/15/B/4.png" class title="This is an example image">
+
+<p>特点:</p>
+<p>在B树的基础上进行了改进，只有叶子节点存储数据<br>叶子节点上增加了链表设计，更加适合范围查询（数据库常用），遍历不需要再中序进行。<br>因为非叶子节点不存储数据，所以可以存储更多关键信息 。比如存储索引（key），一个节点可以存储更多的key，查询定位会大大加快。<br>范围查询，排序，可以存储更多的关键信息，这都一一命中了我们数据库的需求</p>
+<h2 id="总结："><a href="#总结：" class="headerlink" title="总结："></a>总结：</h2><p>B树的节点都存储数据，在数据库中定位的时候，会比B+树多出不必要的读取。</p>
+<p>B树我们在遍历，分组，排序时需要中序遍历才可以得到，实现繁琐，B+树的链表本身就是连贯有序的。</p>
+<p>B树在提高了IO性能的同时并没有解决元素遍历的我效率低下的问题，正是为了解决这个问题，B+树应用而生。B+树只需要去遍历叶子节点就可以实现整棵树的遍历。而且在数据库中基于范围的查询是非常频繁的，而B树不支持这样的操作或者说效率太低<br>————————————————<br>版权声明：本文为CSDN博主「大米饭66」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。<br>原文链接：<a target="_blank" rel="noopener" href="https://blog.csdn.net/oschina_40730821/article/details/105784034">https://blog.csdn.net/oschina_40730821/article/details/105784034</a></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://hackhang.github.io/2021/08/11/Mysql%E9%94%81/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -984,7 +1108,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">8</span>
+          <span class="site-state-item-count">9</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
