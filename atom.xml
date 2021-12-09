@@ -6,7 +6,7 @@
   <link href="https://hackhang.github.io/atom.xml" rel="self"/>
   
   <link href="https://hackhang.github.io/"/>
-  <updated>2021-12-06T13:08:12.005Z</updated>
+  <updated>2021-12-09T06:39:01.427Z</updated>
   <id>https://hackhang.github.io/</id>
   
   <author>
@@ -15,6 +15,25 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Leetcode-双指针</title>
+    <link href="https://hackhang.github.io/2021/12/08/Leetcode-%E5%8F%8C%E6%8C%87%E9%92%88/"/>
+    <id>https://hackhang.github.io/2021/12/08/Leetcode-%E5%8F%8C%E6%8C%87%E9%92%88/</id>
+    <published>2021-12-08T14:53:55.000Z</published>
+    <updated>2021-12-09T06:39:01.427Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="双指针"><a href="#双指针" class="headerlink" title="双指针"></a>双指针</h1><p>双指针作为一个重要的解题手段，可以巧妙地解决很多问题，本文就对双指针这一解题方法进行一个总结。</p><span id="more"></span><h2 id="Leetcode11-盛水最多的容器"><a href="#Leetcode11-盛水最多的容器" class="headerlink" title="Leetcode11.盛水最多的容器"></a>Leetcode11.盛水最多的容器</h2><img src="/2021/12/08/Leetcode-%E5%8F%8C%E6%8C%87%E9%92%88/image-20211209110733559.png" class title="This is an example image"><p><img src="/Leetcode-%E5%8F%8C%E6%8C%87%E9%92%88/image-20211209110733559.png" alt="image-20211209110733559"></p><p>题目分析: </p><p>首先就是题目的含义，其实很容易可以看出来，本题就是找出哪两个板子围成的<font color="red">面积最大</font><br>$$<br>maxArea = {min(a_{i},a_{j})*|(i-j)|}<br>$$</p><blockquote><p><font color="cornflowerblue">算法的本质就是遍历，但是要找到一个最优的遍历</font>。</p></blockquote><p>双指针：分别给左端点和右端点两个指针，这样给的好处是保证了最开始的面积宽是最大的，然后再去比较长度，哪一边的长度小，就让那一边移动一格，这样就保证了不会丢失数据，又保证了这样移动出的最大面积就是最大面积，终止条件就是，<strong>i&gt;=j</strong>。</p><p>java代码如下：</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">maxArea</span><span class="params">(<span class="keyword">int</span>[] height)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> maA = <span class="number">0</span> ;</span><br><span class="line">        <span class="keyword">int</span> i = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> j = height.length-<span class="number">1</span>;</span><br><span class="line">        <span class="keyword">while</span>(i&lt;j)&#123;</span><br><span class="line">            maA = Math.max(maA,Math.min(height[i],height[j])*Math.abs(i-j));</span><br><span class="line">            <span class="keyword">if</span>(height[i]&lt;=height[j])&#123;</span><br><span class="line">                i++;</span><br><span class="line">            &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                j--;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> maA;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+    
+    
+    <summary type="html">&lt;h1 id=&quot;双指针&quot;&gt;&lt;a href=&quot;#双指针&quot; class=&quot;headerlink&quot; title=&quot;双指针&quot;&gt;&lt;/a&gt;双指针&lt;/h1&gt;&lt;p&gt;双指针作为一个重要的解题手段，可以巧妙地解决很多问题，本文就对双指针这一解题方法进行一个总结。&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="算法" scheme="https://hackhang.github.io/categories/%E7%AE%97%E6%B3%95/"/>
+    
+    
+  </entry>
   
   <entry>
     <title>Day01</title>
